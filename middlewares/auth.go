@@ -1,4 +1,4 @@
-package authmiddlewares
+package mwauth
 
 import (
 	"context"
