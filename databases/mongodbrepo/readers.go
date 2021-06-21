@@ -6,11 +6,8 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
 )
-
-type sample struct {
-	something string
-}
 
 // TODO: implement filters
 func (db *MongoDBRepo) Fetch(filter interface{}, collectionName string) interface{} {
@@ -18,15 +15,14 @@ func (db *MongoDBRepo) Fetch(filter interface{}, collectionName string) interfac
 	configs, _ := godotenv.Read()
 	collection := db.Client.Database(configs["MONGO_DATABASE"]).Collection(collectionName)
 
-	result, err := collection.Find(context.TODO(), filter)
+	result, err := collection.Find(context.TODO(), bson.M{})
 	if err != nil {
 		fmt.Println("Problem fetching data to mongodb")
 		log.Fatal(err)
 	}
 
+	fmt.Println("Showing results here")
 	fmt.Println(result)
 
-	test := sample{something: "hello world"}
-
-	return test
+	return result
 }
