@@ -16,7 +16,7 @@ func (db *MongoDBRepo) Create(inputs interface{}, collectionName string) interfa
 	godotenv.Load()
 	configs, _ := godotenv.Read()
 	collection := db.Client.Database(configs["MONGO_DATABASE"]).Collection(collectionName)
-
+	fmt.Println(inputs)
 	result, err := collection.InsertOne(context.TODO(), inputs)
 	if err != nil {
 		fmt.Println("Problem in inserting data to mongodb")
