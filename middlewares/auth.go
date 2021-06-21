@@ -1,4 +1,4 @@
-package srvsmiddlewares
+package middlewares
 
 import (
 	"context"
