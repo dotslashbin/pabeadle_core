@@ -1,4 +1,4 @@
-package srvsdatabases
+package databases
 
 type DatabaseINT interface {
 	InitDB()
