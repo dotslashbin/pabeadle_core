@@ -8,6 +8,10 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type sample struct {
+	something string
+}
+
 // TODO: implement filters
 func (db *MongoDBRepo) Fetch(filter interface{}, collectionName string) interface{} {
 	fmt.Println("This calls the fetcher")
@@ -21,5 +25,7 @@ func (db *MongoDBRepo) Fetch(filter interface{}, collectionName string) interfac
 		log.Fatal(err)
 	}
 
-	return result
+	test := sample{something: "hello world"}
+
+	return test
 }
