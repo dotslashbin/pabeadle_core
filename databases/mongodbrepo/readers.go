@@ -9,20 +9,34 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+type returnObj struct {
+	data []bson.M
+}
+
 // TODO: implement filters
-func (db *MongoDBRepo) Fetch(filter interface{}, collectionName string) interface{} {
+func (db *MongoDBRepo) Fetch(filter interface{}, collectionName string) []bson.M {
 	godotenv.Load()
 	configs, _ := godotenv.Read()
 	collection := db.Client.Database(configs["MONGO_DATABASE"]).Collection(collectionName)
 
-	result, err := collection.Find(context.TODO(), bson.M{})
+	cursor, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
 		fmt.Println("Problem fetching data to mongodb")
 		log.Fatal(err)
 	}
+	defer cursor.Close(context.TODO())
 
-	fmt.Println("Showing results here")
-	fmt.Println(result)
+	var records []bson.M
 
-	return result
+	for cursor.Next(context.TODO()) {
+		var result bson.M
+		err := cursor.Decode(&result)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		records = append(records, result)
+	}
+
+	return records
 }
