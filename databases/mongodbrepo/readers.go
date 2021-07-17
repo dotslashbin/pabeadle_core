@@ -13,7 +13,6 @@ type returnObj struct {
 	data []bson.M
 }
 
-// TODO: implement filters
 func (db *MongoDBRepo) Fetch(filter interface{}, collectionName string) []bson.M {
 	godotenv.Load()
 	configs, _ := godotenv.Read()
